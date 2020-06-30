@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "vanillacompat",
+  "version": "${version}",
+
+  "name": "VanillaCompat",
+  "description": "This is a serverside library for making mods compatible with vanilla clients.",
+  "authors": [
+    "SoapyXM"
+  ],
+  "contact": {
+    "homepage": "https://soapyxm.me/"
+  },
+
+  "license": "MIT",
+  "icon": "assets/vanillacompat/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.hephaestus.fiblib.FibLib"
+    ]
+  },
+  "mixins": [
+    "vanillacompat.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*"
+  },
+  "custom": {
+    "modmenu:api": true
+  }
+}
