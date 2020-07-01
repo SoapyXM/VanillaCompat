@@ -22,7 +22,7 @@ public class VanillaCompat implements ModInitializer {
     private static final Logger LOGGER = LogManager.getLogger(MODID);
 
     public static void log(String msg) {
-
+        LOGGER.info(msg);
     }
 
     public static Identifier id(String path) {
@@ -31,22 +31,6 @@ public class VanillaCompat implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        Registry.register(Registry.ITEM, id("debug_item"), new Item(new Item.Settings()) {
-            /*@Override
-            public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-                user.openHandledScreen(new GuiScreenHandlerFactory());
-                return TypedActionResult.success(user.getStackInHand(hand));
-            }*/
-
-            @Override
-            public ActionResult useOnBlock(ItemUsageContext context) {
-                BlockEntity be = context.getWorld().getBlockEntity(context.getBlockPos());
-                if(be instanceof BarrelBlockEntity) {
-                    context.getPlayer().openHandledScreen(new GuiScreenHandlerFactory((BarrelBlockEntity)be));
-                    return ActionResult.SUCCESS;
-                }
-                return super.useOnBlock(context);
-            }
-        });
+        log("Initialized.");
     }
 }
