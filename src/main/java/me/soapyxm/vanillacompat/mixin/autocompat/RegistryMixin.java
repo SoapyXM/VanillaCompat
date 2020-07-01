@@ -1,9 +1,7 @@
 package me.soapyxm.vanillacompat.mixin.autocompat;
 
 import dev.hephaestus.fiblib.FibLib;
-import me.soapyxm.vanillacompat.fibs.AlwaysBlockFib;
-import me.soapyxm.vanillacompat.fibs.AlwaysTemplateItemFib;
-import net.fabricmc.loader.api.FabricLoader;
+import me.soapyxm.vanillacompat.CompatRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -24,19 +22,17 @@ public class RegistryMixin<T, V> {
     @Inject(at = @At("TAIL"), method = "add(Lnet/minecraft/util/registry/RegistryKey;Ljava/lang/Object;)Ljava/lang/Object;")
     public void registrySetTail(RegistryKey<T> key, V entry, CallbackInfoReturnable<V> cir) {
         Identifier id = key.getValue();
-        if(entry instanceof Item) {
-            Item item = (Item)entry;
-            if(!id.getNamespace().equals("minecraft")) {
-                FibLib.log("Registering AutoCompat item fib for " + id.toString());
-                FibLib.Items.register(new AlwaysTemplateItemFib(new ItemStack(item), getStackForFib(id, item)));
-            }
-        }
-        if(entry instanceof Block) {
-            Block block = (Block)entry;
-            if(!id.getNamespace().equals("minecraft")) {
-                for(BlockState state : block.getStateManager().getStates()) {
+        if(!id.getNamespace().equals("minecraft")) {
+            if(!CompatRegistry.hasBeenRegistered(id)) {
+                if (entry instanceof Item) {
+                    Item item = (Item) entry;
+                    FibLib.log("Registering AutoCompat item fib for " + id.toString());
+                    CompatRegistry.registerTranslation(id, item, getStackForFib(id, item));
+                }
+                if (entry instanceof Block) {
+                    Block block = (Block) entry;
                     FibLib.log("Registering AutoCompat block fib for " + id.toString());
-                    FibLib.Blocks.register(new AlwaysBlockFib(state, getStateForFib(id, state)));
+                    CompatRegistry.registerTranslation(id, block, getStateForFib(id));
                 }
             }
         }
@@ -44,8 +40,7 @@ public class RegistryMixin<T, V> {
 
     private ItemStack getStackForFib(Identifier id, Item item) {
         if(item instanceof BlockItem) {
-            BlockItem blockItem = (BlockItem)item;
-            Block fibbedBlock = getStateForFib(id, blockItem.getBlock().getDefaultState()).getBlock();
+            Block fibbedBlock = getStateForFib(id).getBlock();
             return new ItemStack(fibbedBlock);
         } else {
             if(id.getPath().contains("ingot")) {
@@ -57,7 +52,7 @@ public class RegistryMixin<T, V> {
         }
     }
 
-    private BlockState getStateForFib(Identifier id, BlockState state) {
+    private BlockState getStateForFib(Identifier id) {
         if(id.getPath().contains("ore")) {
             return Blocks.IRON_ORE.getDefaultState();
         } else if(id.getPath().contains("block")) {
