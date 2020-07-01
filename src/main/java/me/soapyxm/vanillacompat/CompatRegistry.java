@@ -16,6 +16,7 @@ import java.util.Set;
 
 public class CompatRegistry {
     private static final Set<Identifier> compatIDs = new HashSet<>();
+    private static final Set<String> autoCompatIgnoreNamespaces = new HashSet<>();
 
     public static void registerTranslation(Identifier id, ItemStack stack, ItemStack replaceWith) {
         compatIDs.add(id);
@@ -42,6 +43,14 @@ public class CompatRegistry {
 
     public static void registerTranslation(Identifier id, Block block, BlockState replaceWith) {
         registerTranslation(id, block, replaceWith, false);
+    }
+
+    public static void autoCompatIgnoreNamespace(String namespace) {
+        autoCompatIgnoreNamespaces.add(namespace);
+    }
+
+    public static boolean ignoreNamespace(String namespace) {
+        return autoCompatIgnoreNamespaces.contains(namespace);
     }
 
     public static boolean hasBeenRegistered(Identifier id) {

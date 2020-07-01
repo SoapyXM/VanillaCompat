@@ -23,7 +23,7 @@ public class RegistryMixin<T, V> {
     public void registrySetTail(RegistryKey<T> key, V entry, CallbackInfoReturnable<V> cir) {
         Identifier id = key.getValue();
         if(!id.getNamespace().equals("minecraft")) {
-            if(!CompatRegistry.hasBeenRegistered(id)) {
+            if(!CompatRegistry.hasBeenRegistered(id) && !CompatRegistry.ignoreNamespace(id.getNamespace())) {
                 if (entry instanceof Item) {
                     Item item = (Item) entry;
                     FibLib.log("Registering AutoCompat item fib for " + id.toString());
