@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.soapyxm.vanillacompat.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "autocompat.RegistryMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -3,6 +3,7 @@ package me.soapyxm.vanillacompat.mixin.autocompat;
 import dev.hephaestus.fiblib.FibLib;
 import me.soapyxm.vanillacompat.fibs.AlwaysBlockFib;
 import me.soapyxm.vanillacompat.fibs.AlwaysTemplateItemFib;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -60,7 +61,7 @@ public class RegistryMixin<T, V> {
         if(id.getPath().contains("ore")) {
             return Blocks.IRON_ORE.getDefaultState();
         } else if(id.getPath().contains("block")) {
-            return Blocks.NETHERITE_BLOCK.getDefaultState();
+            return Blocks.IRON_BLOCK.getDefaultState();
         }
         return Blocks.RED_CONCRETE.getDefaultState();
     }
