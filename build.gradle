@@ -14,10 +14,6 @@ minecraft {
 }
 
 repositories {
-    maven {
-        name = "Cotton"
-        url = "https://server.bbkr.space/artifactory/libs-release/"
-    }
     maven { url 'https://jitpack.io' }
 }
 
@@ -30,8 +26,6 @@ dependencies {
 
     modImplementation "com.github.SoapyXM:FibLib:${project.fiblib_version}"
     include "com.github.SoapyXM:FibLib:${project.fiblib_version}"
-
-    modImplementation "io.github.cottonmc:cotton-resources:1.7.1"
 }
 
 processResources {
@@ -80,9 +74,14 @@ publishing {
         }
     }
 
-    // select the repositories you want to publish to
     repositories {
-        // uncomment to publish to the local maven
-        // mavenLocal()
+        maven {
+            name = "GithubPackages"
+            url "https://maven.pkg.github.com/SoapyXM/VanillaCompat"
+            credentials {
+                username = "SoapyXM"
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 }
