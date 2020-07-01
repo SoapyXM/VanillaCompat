@@ -18,3 +18,6 @@ And then just include it as a dependency.
     
 VanillaCompat will automatically generate block/item translations for blocks/items that
 are not translated. Register your items with CompatRegistry, prior to registering them.
+
+If you are doing transformations for a mod other than your own, defer AutoCompat from transforming its items in a
+static block. If you are doing this, be sure to transform *every* block/item in that namespace, or the client will crash.
